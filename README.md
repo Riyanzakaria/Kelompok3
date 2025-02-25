@@ -21,7 +21,7 @@ For detailed documentation, refer to the files linked below (written in Indonesi
 
 - 📘 [Dokumen Awal Proyek](#)
 - 📙 [Fitur Basis Data](#)
-- 📗 [Laporan Tugas UAS](#)
+- 📗 [Laporan Tugas](#)
 - 📕 [Manual Penggunaan Sistem](#)
 
 ---

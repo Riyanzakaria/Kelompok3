@@ -1,0 +1,144 @@
+
+body {
+    position: relative;
+    /* background: url("../gambar/bg.jpg") no-repeat center center fixed; */
+    background-size: cover;
+    color: white;
+    background: linear-gradient(to right, #111827 50%, rgba(17, 24, 39, 0.7)90%), 
+    url('../gambar/bg.jpg') no-repeat center center/cover;
+    height: 100vh;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Atur opacity */
+    z-index: -1;
+}
+.btn-login {
+
+    background-color: white; /* Warna abu-abu gelap */
+    color: black;
+    border: 2px solid #1f2937; /* Warna border sedikit lebih gelap */
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    display: block;
+    width: 100%; /* Supaya tombol menyesuaikan lebar form */
+    text-align: center;
+    margin-top: 10px; /* Beri jarak agar lebih rapi */
+}
+
+.btn-login:hover {
+    background-color: #4B5563; /* Warna biru saat hover */
+    color: white;
+}
+
+.btn-login:active {
+    background-color: #6B7280; /* Warna biru lebih gelap saat tombol ditekan */
+    transform: scale(0.95); /* Efek sedikit mengecil saat ditekan */
+}
+.remember-forgot {
+    display: flex;
+    justify-content: space-between; /* Menjaga posisi di kiri dan kanan */
+    align-items: center; /* Menyamakan tinggi elemen */
+    width: 100%;
+    max-width: 400px; /* Sesuaikan dengan lebar form */
+    margin-top: 10px;
+}
+
+.forgot-link {
+    color: #38BDF8; /* Sesuaikan warna agar terlihat */
+    text-decoration: none; /* Hilangkan garis bawah */
+}
+
+.forgot-link:hover {
+    text-decoration: underline; /* Tambahkan efek hover */
+}
+.form-section {
+    background: rgba(255, 255, 255, 0.1); /* Transparan */
+    padding: 55px 20px 100px 20px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px); /* Efek blur */
+    -webkit-backdrop-filter: blur(10px); /* Untuk browser Safari */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Bayangan untuk efek floating */
+    max-width: 450px;
+    margin: auto;
+}
+.form-control {
+    background: rgba(255, 255, 255, 0.2); /* Lebih transparan */
+    border: none;
+    color: white;
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    outline: none;
+    box-shadow: none;
+}
+.container {
+    display: flex;
+    align-items: center; /* Posisikan di tengah secara vertikal */
+    height: 100vh; /* Buat container setinggi layar */
+}
+
+.col-md-4 {
+    margin-left: 0%; /* Geser ke kiri */
+}
+.navbar {
+    background: transparent !important; /* Transparan */
+    backdrop-filter: blur(10px); /* Efek blur */
+    padding: 10px 20px; /* Spasi agar lebih proporsional */
+}
+
+.navbar-brand {
+    font-size: 18px;
+    font-weight: bold;
+}
+.sign-link {
+    color: white; /* Sesuaikan warna agar terlihat */
+    text-decoration: none; /* Hilangkan garis bawah */
+}
+
+.sign-link:hover {
+    text-decoration: underline; /* Tambahkan efek hover */
+}
+.checkbox-remember {
+    appearance: none; /* Hilangkan style default */
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ffffff; /* Warna border */
+    background-color: transparent;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    accent-color: #111827;
+}
+.checkbox-remember:checked {
+    background-color: white !important; /* Warna futuristik */
+    border-color: white !important; 
+    accent-color: white !important;
+    filter: brightness(0.5) contrast(2) !important; 
+} 
+.checkbox-remember:checked::after {
+    content: "✔";
+    font-size: 14px;
+    color: white !important; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+}

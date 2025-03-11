@@ -5,7 +5,7 @@ body {
     background-size: cover;
     color: white;
     background: linear-gradient(to right, #111827 50%, rgba(17, 24, 39, 0.7)90%), 
-    url('../gambar/bg.jpg') no-repeat center center/cover;
+    url('../foto/bg.jpg') no-repeat center center/cover;
     height: 100vh;
 }
 
@@ -25,14 +25,13 @@ body::before {
     color: black;
     border: 2px solid #1f2937; /* Warna border sedikit lebih gelap */
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 18px;
     border-radius: 100px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.1s;
     display: block;
     width: 100%; /* Supaya tombol menyesuaikan lebar form */
     text-align: center;
-    margin-top: 10px; /* Beri jarak agar lebih rapi */
 }
 
 .btn-login:hover {
@@ -49,7 +48,7 @@ body::before {
     justify-content: space-between; /* Menjaga posisi di kiri dan kanan */
     align-items: center; /* Menyamakan tinggi elemen */
     width: 100%;
-    max-width: 400px; /* Sesuaikan dengan lebar form */
+    max-width:100%; /* Sesuaikan dengan lebar form */
     margin-top: 10px;
 }
 
@@ -63,16 +62,17 @@ body::before {
 }
 .form-section {
     background: rgba(255, 255, 255, 0.1); /* Transparan */
-    padding: 55px 20px 100px 20px;
+    padding: 55px 40px 70px 40px;
     border-radius: 10px;
     backdrop-filter: blur(10px); /* Efek blur */
     -webkit-backdrop-filter: blur(10px); /* Untuk browser Safari */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Bayangan untuk efek floating */
-    max-width: 450px;
+    max-width: 100%;
     margin: auto;
 }
 .form-control {
     background: rgba(255, 255, 255, 0.2); /* Lebih transparan */
+    height: 45px;
     border: none;
     color: white;
 }
@@ -142,3 +142,60 @@ body::before {
     transform: translate(-50%, -50%);
     font-weight: bold;
 }
+.input_field {
+    position: relative;
+    height: 45px;
+    margin-top: 15px;
+    width: 100%;
+  }
+  .refresh_button {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    height: 30px;
+    width: 30px;
+    border: none;
+    border-radius: 4px;
+    color: #000000;
+    cursor: pointer;
+  }
+  .refresh_button:active {
+    transform: translateY(-50%) scale(0.98);
+  }
+  .input_field input,
+  .button button {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+  }
+  .input_field input {
+    padding: 0 15px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .captch_box input {
+    color: #ffffff;
+    font-size: 22px;
+    pointer-events: none;
+  }
+  .captch_input input:focus {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+  }
+  .message {
+    font-size: 14px;
+    margin: 14px 0;
+    display: none;
+  }
+  .message.active {
+    display: block;
+  }
+
+  .button button:active {
+    transform: scale(0.99);
+  }
+  .button.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }

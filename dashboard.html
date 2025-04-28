@@ -290,23 +290,33 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <script>
-    .swiper-container {
-      width: 100%;
-      max-width: 1200px; /* Mengatur lebar maksimum */
-      margin: 0 auto; /* Menjaga agar container tetap di tengah */
-      padding: 0 20px; /* Memberikan ruang putih di kiri dan kanan */
-    }
-  
-    .swiper-wrapper {
-      display: flex;
-      justify-content: center; /* Memastikan slide berada di tengah */
-    }
-  
-    .swiper-slide {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+    var swiper = new Swiper('.swiper-container', {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      loop: true,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      breakpoints: {
+        576: {
+          slidesPerView: 1.5,
+        },
+        768: {
+          slidesPerView: 2.2,
+        },
+        992: {
+          slidesPerView: 3,
+        },
+        1200: {
+          slidesPerView: 4,
+        }
+      }
+    });
 </script>
 
 

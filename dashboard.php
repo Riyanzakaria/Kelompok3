@@ -96,6 +96,83 @@
     .swiper-button-next {
       right: -20px;
     }
+
+    /* --- START: CSS untuk Fitur Pencarian & Bendera --- */
+    .navbar-brand {
+      color: white !important; 
+      font-weight: bold;
+    }
+    .flag-container {
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+    }
+    .flag {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(to bottom, red 50%, white 50%);
+      margin-right: 5px;
+    }
+    .flag-text {
+      color: white;
+      font-size: 14px;
+    }
+    .navbar-center {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .search-container {
+      width: 100%;
+      max-width: 500px; 
+      opacity: 0;
+      visibility: hidden;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease, max-height 0.3s ease;
+      position: absolute; 
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .search-container.active {
+      opacity: 1;
+      visibility: visible;
+      max-height: 40px; 
+    }
+    .search-container input {
+      width: 100%;
+      padding: 5px 10px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    .search-container input::placeholder {
+      color: #6c757d;
+    }
+    .nav-links { 
+      display: flex; 
+      opacity: 1;
+      visibility: visible;
+      max-height: 40px; 
+      transition: opacity 0.3s ease, visibility 0.3s ease, max-height 0.3s ease;
+    }
+    .nav-links.hidden {
+      opacity: 0;
+      visibility: hidden;
+      max-height: 0;
+    }
+    .fa-search { 
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .fa-search:hover {
+      transform: scale(1.1);
+    }
+    /* --- END: CSS untuk Fitur Pencarian & Bendera --- */
       
   </style>
 </head>
@@ -103,16 +180,26 @@
 
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg">
-    <div class="container d-flex justify-content-between align-items-center py-3">
-      <div class="navbar-brand text-white fw-bold fs-4">Harmonix</div>
-      <div class="d-none d-lg-flex">
-        <a href="#">Jelajah</a>
-        <a href="#">Event Creator</a>
-        <a href="#">Hubungi Kami</a>
+    <div class="container d-flex align-items-center py-3">
+      <div class="d-flex align-items-center">
+        <a class="navbar-brand text-white fw-bold fs-4" href="dashboard.php">Harmonix</a>
+      </div>
+      <div class="navbar-center">
+        <div class="nav-links d-none d-lg-flex" id="navLinks">
+          <a href="dashboard_tiket.php">Jelajah</a>
+          <a href="#">Event Creator</a>
+          <a href="#">Hubungi Kami</a>
+        </div>
+        <div class="search-container" id="searchContainer">
+          <input type="text" placeholder="Cari..." aria-label="Search events" />
+        </div>
       </div>
       <div class="d-flex align-items-center">
-        <img src="https://placehold.co/20x20" alt="Indonesian Flag" class="me-2" />
-        <i class="fas fa-search text-white"></i>
+        <div class="flag-container">
+          <div class="flag"></div>
+          <span class="flag-text">ID</span>
+        </div>
+        <i class="fas fa-search text-white" id="searchToggle" aria-label="Toggle search bar"></i>
       </div>
     </div>
   </nav>
@@ -124,96 +211,11 @@
   </div>
 </section>
 
-<!-- Event Recommendations -->
-<!-- <section class="py-5 bg-white position-relative">
-    <div class="container">
-      <h2 class="fw-bold mb-4">Rekomendasi Event</h2>
-    </div>
-    <div style="max-width: 1200px; margin: 0 auto;">
-        <div class="swiper-container">
-          <div class="swiper-wrapper">
-        <div class="swiper-slide bg-white shadow rounded overflow-hidden" style="max-height: 400px;">
-            <img src="foto/konser2.png" alt="Event 1" class="w-100" style="height: 180px; object-fit: cover;">
-            <div class="p-2">
-              <h6 class="fw-bold mb-1 text-truncate">Bali Barber Expo</h6>
-              <small class="text-muted d-block">10 May 2025</small>
-              <small class="text-muted d-block mb-1">JNM Bloc</small>
-              <p class="text-danger fw-bold mb-2" style="font-size: 0.9rem;">Rp 500.000</p>
-              <a class="btn btn-sm btn-primary" href="detail-event.php" style="background-color: #1e3a8a; border:none;">Beli Tiket</a>
-            </div>
-          </div>
-          
-  
-          <div class="swiper-slide bg-white shadow rounded overflow-hidden" style="max-height: 400px;">
-            <img src="foto/konser2.png" alt="Event 1" class="w-100" style="height: 180px; object-fit: cover;">
-            <div class="p-2">
-              <h6 class="fw-bold mb-1 text-truncate">Bali Barber Expo</h6>
-              <small class="text-muted d-block">10 May 2025</small>
-              <small class="text-muted d-block mb-1">JNM Bloc</small>
-              <p class="text-danger fw-bold mb-2" style="font-size: 0.9rem;">Rp 500.000</p>
-              <button class="btn btn-sm btn-primary rounded-pill">Beli Tiket</button>
-            </div>
-          </div>
-          
-  
-          <div class="swiper-slide bg-white shadow rounded overflow-hidden" style="max-height: 400px;">
-            <img src="foto/konser2.png" alt="Event 1" class="w-100" style="height: 180px; object-fit: cover;">
-            <div class="p-2">
-              <h6 class="fw-bold mb-1 text-truncate">Bali Barber Expo</h6>
-              <small class="text-muted d-block">10 May 2025</small>
-              <small class="text-muted d-block mb-1">JNM Bloc</small>
-              <p class="text-danger fw-bold mb-2" style="font-size: 0.9rem;">Rp 500.000</p>
-              <button class="btn btn-sm btn-primary rounded-pill">Beli Tiket</button>
-            </div>
-          </div>
-          
-          <div class="swiper-slide bg-white shadow rounded overflow-hidden" style="max-height: 400px;">
-            <img src="foto/konser2.png" alt="Event 1" class="w-100" style="height: 180px; object-fit: cover;">
-            <div class="p-2">
-              <h6 class="fw-bold mb-1 text-truncate">Bali Barber Expo</h6>
-              <small class="text-muted d-block">10 May 2025</small>
-              <small class="text-muted d-block mb-1">JNM Bloc</small>
-              <p class="text-danger fw-bold mb-2" style="font-size: 0.9rem;">Rp 500.000</p>
-              <button class="btn btn-sm btn-primary rounded-pill">Beli Tiket</button>
-            </div>
-          </div>
-          
-          <div class="swiper-slide bg-white shadow rounded overflow-hidden" style="max-height: 400px;">
-            <img src="foto/konser2.png" alt="Event 1" class="w-100" style="height: 180px; object-fit: cover;">
-            <div class="p-2">
-              <h6 class="fw-bold mb-1 text-truncate">Bali Barber Expo</h6>
-              <small class="text-muted d-block">10 May 2025</small>
-              <small class="text-muted d-block mb-1">JNM Bloc</small>
-              <p class="text-danger fw-bold mb-2" style="font-size: 0.9rem;">Rp 500.000</p>
-              <button class="btn btn-sm btn-primary rounded-pill">Beli Tiket</button>
-            </div>
-          </div>
-          
-          <div class="swiper-slide bg-white shadow rounded overflow-hidden" style="max-height: 400px;">
-            <img src="foto/konser2.png" alt="Event 1" class="w-100" style="height: 180px; object-fit: cover;">
-            <div class="p-2">
-              <h6 class="fw-bold mb-1 text-truncate">Bali Barber Expo</h6>
-              <small class="text-muted d-block">10 May 2025</small>
-              <small class="text-muted d-block mb-1">JNM Bloc</small>
-              <p class="text-danger fw-bold mb-2" style="font-size: 0.9rem;">Rp 500.000</p>
-              <button class="btn btn-sm btn-primary rounded-pill">Beli Tiket</button>
-            </div>
-          </div>
-  
-      
-      <div class="swiper-button-prev" style="left: -30px; top: 35%;"></div>
-      <div class="swiper-button-next" style="right: -30px; top: 35%;"></div>
-      <div class="swiper-pagination"></div>
-    </div>
-  </section> -->
-
   <!-- Event Recommendations -->
 <section class=" bg-white position-relative">
-  <div class="container d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold mb-0">Rekomendasi Event</h2>
-    <a href="dashboard_tiket.php" class="btn btn-sm btn-outline-primary" style="border: none; color: #1e3a8a;">Lihat Lainnya</a>
+  <div class="container">
+    <h2 class="fw-bold mb-4">Rekomendasi Event</h2>
   </div>
-  
 
   <div class="position-relative" style="max-width: 1200px; margin: 0 auto;">
     <div class="swiper-container posisition-relative">
@@ -286,8 +288,6 @@
     <div class="swiper-button-next"></div>
     <div class="swiper-pagination"></div>
   </div>
-
-  
 </section>
 
   <!-- Scripts -->
@@ -321,6 +321,31 @@
         }
       }
     });
+
+    // --- START: JavaScript untuk Fitur Pencarian ---
+    let isToggling = false;
+    document.getElementById('searchToggle').addEventListener('click', function() {
+      if (isToggling) return;
+      isToggling = true;
+
+      const navLinks = document.getElementById('navLinks');
+      const searchContainer = document.getElementById('searchContainer');
+      
+      navLinks.classList.toggle('hidden');
+      searchContainer.classList.toggle('active');
+
+      const isSearchVisible = searchContainer.classList.contains('active');
+      this.setAttribute('aria-expanded', isSearchVisible);
+      searchContainer.setAttribute('aria-hidden', !isSearchVisible);
+
+      setTimeout(() => {
+        isToggling = false;
+        if (isSearchVisible) {
+          searchContainer.querySelector('input').focus();
+        }
+      }, 300);
+    });
+    // --- END: JavaScript untuk Fitur Pencarian ---
 </script>
 
 

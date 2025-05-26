@@ -1,32 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="foto/logoputih.png" rel="icon">
   <title>Bali Barber Expo</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
   <style>
     body {
-        background-color: #f9fafb;
+      background-color: #f9fafb;
     }
+
     .navbar {
       background-color: #1E3A8A;
     }
+
     .navbar a {
       color: white;
       text-decoration: none;
       margin: 0 10px;
     }
+
     .navbar a:hover {
       text-decoration: underline;
     }
+
     .swiper-button-next,
     .swiper-button-prev {
       color: #1E3A8A;
     }
+
     .hero {
       background-color: #1E3A8A;
       color: white;
@@ -34,69 +40,84 @@
       position: relative;
       overflow: hidden;
     }
-    .hero .left-img, .hero .right-img {
+
+    .hero .left-img,
+    .hero .right-img {
       position: absolute;
       top: 0;
       width: 33%;
       height: 100%;
     }
+
     .hero .left-img {
       left: 0;
     }
+
     .hero .right-img {
       right: 0;
     }
+
     .hero img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+
     .hero .content {
       z-index: 10;
       position: relative;
       text-align: center;
     }
+
     .hero .btn-yellow {
       background-color: #FACC15;
       color: #1E3A8A;
       font-weight: bold;
       border-radius: 9999px;
     }
+
     .event-card {
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       border-radius: .5rem;
       overflow: hidden;
       background-color: white;
     }
+
     .event-card img {
       height: 160px;
       object-fit: cover;
     }
+
     .event-card .price {
       color: #DC2626;
       font-weight: bold;
     }
+
     .event-card .btn-buy {
       background-color: #1E3A8A;
       color: white;
       border-radius: 9999px;
     }
+
     .swiper-container {
       max-width: 1000px;
       margin: 0 auto;
-      overflow: hidden; /* agar card tidak keluar area wrapper */
+      overflow: hidden;
+      /* agar card tidak keluar area wrapper */
       position: relative;
     }
-    
+
     .swiper-wrapper {
-      padding: 0 20px; /* Tambahkan padding agar slide tidak mepet kiri kanan */
+      padding: 0 20px;
+      /* Tambahkan padding agar slide tidak mepet kiri kanan */
     }
-    
+
     .swiper-slide {
-      margin: 0 10px; /* Jarak antar card */
+      margin: 0 10px;
+      /* Jarak antar card */
       transition: transform 0.3s ease-in-out;
     }
-    
+
     .swiper-button-next,
     .swiper-button-prev {
       color: #1E3A8A;
@@ -104,7 +125,7 @@
       height: 36px;
       background-color: #fff;
       border-radius: 50%;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -113,58 +134,70 @@
       position: absolute;
       z-index: 10;
     }
-    
+
     .swiper-button-prev {
       left: -20px;
     }
+
     .swiper-button-next {
       right: -20px;
     }
+
     .navbar {
       background-color: #1E3A8A;
     }
+
     .navbar a {
       color: white;
       text-decoration: none;
       margin: 0 10px;
     }
+
     .navbar a:hover {
       text-decoration: underline;
     }
+
     .nav-button {
       border: none;
       padding: 10px 20px;
       border-radius: 5px;
       margin-right: 10px;
     }
+
     .nav-button.active {
       background-color: #1e3a8a;
       color: white;
     }
+
     .nav-button.inactive {
       background-color: white;
       color: black;
       border: 1px solid #ddd;
     }
+
     .image-landscape {
       aspect-ratio: 19 / 9;
       object-fit: cover;
       width: 100%;
       border-radius: 0.75rem;
     }
+
     .event-detail i {
       color: #1e3a8a;
       margin-right: 8px;
     }
+
     .event-detail strong {
       display: block;
       color: #6b7280;
       font-size: small;
     }
+
     .event-detail span {
       font-weight: 600;
       color: #111827;
     }
+
     .detail-box {
       background: transparent;
       padding: 0;
@@ -172,9 +205,10 @@
     }
   </style>
 </head>
+
 <body>
-   <!-- Navbar -->
-   <nav class="navbar navbar-expand-lg">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
     <div class="container d-flex justify-content-between align-items-center py-3">
       <a class="navbar-brand text-white fw-bold fs-4" href="dashboard3.html">Harmonix</a>
       <div class="d-none d-lg-flex">
@@ -226,7 +260,10 @@
         <div id="contentArea">
           <div id="kontenDeskripsi">
             <h6>Deskripsi Event</h6>
-            <p><em>Bali Barber Expo</em> adalah event barber tahunan yang diselenggarakan di pulau Dewata Bali yang mempertemukan para profesional industri barber dari seluruh Indonesia dan internasional. Dilengkapi dengan kompetisi, seminar, dan booth-brand ternama. Ini adalah ajang edukasi, inspirasi, dan networking terbaik bagi para barber dan pecinta dunia grooming pria.</p>
+            <p><em>Bali Barber Expo</em> adalah event barber tahunan yang diselenggarakan di pulau Dewata Bali yang
+              mempertemukan para profesional industri barber dari seluruh Indonesia dan internasional. Dilengkapi dengan
+              kompetisi, seminar, dan booth-brand ternama. Ini adalah ajang edukasi, inspirasi, dan networking terbaik
+              bagi para barber dan pecinta dunia grooming pria.</p>
           </div>
 
           <div id="kontenTiket" style="display: none;">
@@ -241,18 +278,23 @@
                 <div class="text-danger fw-bold">Rp 150.000</div>
               </div>
 
-            <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-              <div class="d-flex align-items-center">
-                <button class="btn btn-light border rounded-3 me-2">−</button>
-                <input type="text" id="jumlahTiket" class="form-control text-center" value="1" style="width: 50px;" readonly />
-                <button class="btn btn-light border rounded-3 ms-2">+</button>
-              </div>  
-              <div class="d-flex align-items-center">
-                <button class="btn btn-primary rounded-3 px-4" style="background-color: #1e3a8a; border: none;">Beli</button>
+              <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                <div class="d-flex align-items-center">
+                  <button class="btn btn-light border rounded-3 me-2" onclick="ubahJumlah(this, -1)">−</button>
+                  <input type="text" class="form-control text-center jumlahTiketInput" value="1" style="width: 50px;"
+                    readonly />
+                  <button class="btn btn-light border rounded-3 ms-2" onclick="ubahJumlah(this, 1)">+</button>
+                </div>
+
+                <div class="d-flex align-items-center">
+                  <button class="btn btn-primary rounded-3 px-4" style="background-color: #1e3a8a; border: none;"
+                    onclick="lanjutPembelian('Presale 3 - Festival', 150000, this)">
+                    Beli
+                  </button>
+                </div>
               </div>
             </div>
 
-            </div>
             <div class="card p-3 mb-3 border border-light shadow-sm rounded-4">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <strong>Presale 3 - VIP Access</strong>
@@ -264,17 +306,21 @@
                 <div class="text-danger fw-bold">Rp 300.000</div>
               </div>
 
-            <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-              <div class="d-flex align-items-center">
-                <button class="btn btn-light border rounded-3 me-2">−</button>
-                <input type="text" id="jumlahTiket" class="form-control text-center" value="1" style="width: 50px;" readonly />
-                <button class="btn btn-light border rounded-3 ms-2">+</button>
-              </div>  
-              <div class="d-flex align-items-center">
-                <button class="btn btn-primary rounded-3 px-4" style="background-color: #1e3a8a; border: none;">Beli</button>
-              </div>
-            </div>
+              <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                <div class="d-flex align-items-center">
+                  <button class="btn btn-light border rounded-3 me-2" onclick="ubahJumlah(this, -1)">−</button>
+                  <input type="text" class="form-control text-center jumlahTiketInput" value="1" style="width: 50px;"
+                    readonly />
+                  <button class="btn btn-light border rounded-3 ms-2" onclick="ubahJumlah(this, 1)">+</button>
+                </div>
 
+                <div class="d-flex align-items-center">
+                  <button class="btn btn-primary rounded-3 px-4" style="background-color: #1e3a8a; border: none;"
+                    onclick="lanjutPembelian('Presale 3 - VIP Access', 300000, this)">
+                    Beli
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -299,17 +345,26 @@
             <strong>Lokasi</strong>
             <span>Dharma Negara Alaya</span>
           </div>
-          <button class="btn btn-primary w-100" style="background-color: #1e3a8a; border: none;">Beli Tiket</button>
+          <button class="btn btn-primary w-100" style="background-color: #1e3a8a; border: none;"
+            onclick="document.getElementById('btnTiket').click()">Beli Tiket</button>
         </div>
       </div>
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     const btnDeskripsi = document.getElementById('btnDeskripsi');
     const btnTiket = document.getElementById('btnTiket');
     const kontenDeskripsi = document.getElementById('kontenDeskripsi');
     const kontenTiket = document.getElementById('kontenTiket');
+
+    function ubahJumlah(button, perubahan) {
+      const input = button.parentElement.querySelector('.jumlahTiketInput');
+      let jumlah = parseInt(input.value) + perubahan;
+      if (jumlah < 1) jumlah = 1;
+      input.value = jumlah;
+    }
 
     btnDeskripsi.addEventListener('click', () => {
       btnDeskripsi.classList.add('active');
@@ -328,6 +383,30 @@
       kontenDeskripsi.style.display = 'none';
       kontenTiket.style.display = 'block';
     });
+
+    function lanjutPembelian(namaTiket, hargaTiket, tombol) {
+      const parent = tombol.closest('.card');
+      const input = parent.querySelector('.jumlahTiketInput');
+      const jumlah = parseInt(input.value);
+
+      // Simpan data tiket ke localStorage
+      const dataTiket = {
+        eventName: "BALI BARBER EXPO",
+        namaTiket: namaTiket,
+        hargaTiket: hargaTiket,
+        jumlah: jumlah,
+        totalHarga: hargaTiket * jumlah,
+        eventDate: "05 – 06 Jul 2025",
+        eventTime: "10:00 – 21:00",
+        eventLocation: "Dharma Negara Alaya"
+      };
+
+      localStorage.setItem('dataPembelianTiket', JSON.stringify(dataTiket));
+
+      // Redirect ke halaman form pembelian
+      window.location.href = 'form-pembelian.php';
+    }
   </script>
 </body>
+
 </html>

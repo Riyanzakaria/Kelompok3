@@ -152,41 +152,66 @@
       .register-link:hover {
         text-decoration: underline;
       }
+      .form-error {
+        color: #ffdddd; 
+        font-size: 0.875em;
+        margin-top: 5px; 
+        display: block; 
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
-          <a class="navbar-brand text-white d-flex align-items-center" href="#">
+          <a class="navbar-brand text-white d-flex align-items-center" href="login.php"> 
             <img src="foto/logoputih.png" alt="Logo" width="30" height="30" class="me-2">
             HARMONIXX
           </a>
-          <a href="register" class="sign-link">Sign Up!</a>
+          <a href="register.php" class="sign-link">Sign Up!</a> 
         </div>
       </nav>        
       <div class="row w-100">
         <div class="col-md-4 d-flex align-items-center">
           <div class="form-section">
-            <form>
+            <form id="forgotPasswordForm"> 
               <div>
                 <h3 style="text-align: center;">Forgot Password</h3>
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="user@email.com">
+                <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" placeholder="user@email.com" required>
+                <div class="form-error" id="emailError"></div> 
               </div>
-              <button class="btn-confirm" type="confirm">Confirm</button>
-              <a href="register.html" class="register-link">Create Account?</a>
+              <button class="btn-confirm" type="submit">Confirm</button> 
+              <a href="register.php" class="register-link">Create Account?</a>
             </form>
           </div>
         </div>
         <div class="col-md-8 background-section"></div>
       </div>
     </div>
-    <script src="js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
+    <script>
+      const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+      const emailInput = document.getElementById('exampleInputEmail1');
+      const emailError = document.getElementById('emailError');
+
+      forgotPasswordForm.addEventListener('submit', function(event) {
+        event.preventDefault(); 
+
+        emailError.textContent = ''; /
+        if (emailInput.value.trim() === "") {
+          emailError.textContent = 'Email address is required.';
+          return; 
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value)) {
+          emailError.textContent = 'Please enter a valid email address.';
+          return; 
+        }
+
+        window.location.href = 'forgotPassword2.php';
+      });
+    </script>
   </body>
 </html>

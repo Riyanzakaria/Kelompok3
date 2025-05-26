@@ -236,7 +236,7 @@
     .input_field.captch_box input {
       background: rgba(255, 255, 255, 0.9);
       border: none;
-      color: black;
+      color: black !important; 
       border-radius: 5px 0 0 5px;
       padding: 8px;
       flex-grow: 1;
@@ -270,6 +270,7 @@
       padding: 8px;
       font-size: 14px;
       height: 38px;
+      color: black; 
     }
 
     .message {
@@ -286,55 +287,124 @@
             <img src="foto/logoputih.png" alt="Logo" width="30" height="30" class="me-2">
             HARMONIXX
           </a>
-          <a href="register" class="sign-link">Sign Up!</a>
+          <a href="register.php" class="sign-link">Sign Up!</a> <!-- Mengarahkan ke register.php -->
         </div>
       </nav>        
       <div class="row w-100">
         <div class="col-md-4 d-flex align-items-center">
           <div class="form-section">
-            <form>
+            <form id="loginForm"> <!-- Tambahkan id pada form -->
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email Address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="user@gmail.com">
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="user@gmail.com" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="••••••••">
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="••••••••" required>
               </div>
               <div class="mb-3">
                 <div class="captcha-section">
                   <div class="input_field captch_box">
-                    <input type="text" value="" disabled />
-                    <button class="refresh_button">
+                    <input type="text" value="" disabled id="captchaTextBox" />
+                    <button type="button" class="refresh_button" id="refreshCaptcha">
                       <i class="fa-solid fa-rotate-right"></i>
                     </button>
                   </div>
                   <div class="input_field captch_input">
-                    <input class="form-control" type="text" placeholder="Enter captcha" />
+                    <input class="form-control" type="text" placeholder="Enter captcha" id="captchaInput" required/>
                   </div>
                 </div>
-                <div class="message">Entered captcha is correct</div>
+                <div class="message" id="captchaMessage"></div>
               </div>
               <div class="remember-forgot">
                 <label>
                   <input type="checkbox" class="checkbox-remember"> Remember Me
                 </label>
-                <a href="#" class="forgot-link">Forgot Password?</a>
+                <a href="forgotPassword.php" class="forgot-link">Forgot Password?</a>
               </div>
               <button class="btn btn-google" type="button">
                 <i class="fab fa-google me-2"></i> Continue with Google
               </button>
               <button class="btn-login" type="submit">LOGIN</button>
-              <a href="register" class="create-account-link">CREATE ACCOUNT!</a>
+              <a href="register.php" class="create-account-link">CREATE ACCOUNT!</a> <!-- Mengarahkan ke register.php -->
             </form>
           </div>
         </div>
         <div class="col-md-8 background-section"></div>
       </div>
     </div>
-    <script src="js/script.js"></script>
+    <!-- Hapus script.js yang lama jika hanya untuk captcha, karena kita akan implementasikan di sini -->
+    <!-- <script src="js/script.js"></script> --> 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <!-- Popper.js dan Bootstrap.js individual tidak diperlukan jika sudah ada bundle -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script> -->
+
+    <script>
+      // CAPTCHA Script
+      const captchaTextBox = document.getElementById("captchaTextBox");
+      const refreshButton = document.getElementById("refreshCaptcha");
+      const captchaInputBox = document.getElementById("captchaInput");
+      const message = document.getElementById("captchaMessage");
+      const loginForm = document.getElementById("loginForm"); // Ambil form
+
+      let captchaText = null;
+
+      const generateCaptcha = () => {
+        const randomString = Math.random().toString(36).substring(2, 7);
+        const randomStringArray = randomString.split("");
+        const changeString = randomStringArray.map((char) => (Math.random() > 0.5 ? char.toUpperCase() : char));
+        captchaText = changeString.join("   "); // Tambahkan spasi antar karakter
+        captchaTextBox.value = captchaText;
+      };
+
+      const refreshBtnClick = () => {
+        generateCaptcha();
+        captchaInputBox.value = "";
+        captchaKeyUpValidate();
+      };
+
+      const captchaKeyUpValidate = () => {
+        const inputText = captchaInputBox.value.split(" ").join(""); // Hilangkan spasi saat validasi
+        const captchaCompareText = captchaText ? captchaText.split(" ").join("") : ""; // Hilangkan spasi dari captchaText
+
+        if (inputText === captchaCompareText && inputText.length > 0) {
+          message.style.color = "#82c91e"; // Warna hijau untuk benar
+          message.innerText = "Entered captcha is correct";
+          return true;
+        } else if (inputText.length === 0) {
+          message.innerText = "";
+          return false;
+        }
+        else {
+          message.style.color = "#ff0000"; // Warna merah untuk salah
+          message.innerText = "Entered captcha is not correct";
+          return false;
+        }
+      };
+
+      refreshButton.addEventListener("click", refreshBtnClick);
+      captchaInputBox.addEventListener("keyup", captchaKeyUpValidate);
+      window.addEventListener("load", () => { // Generate captcha saat halaman dimuat
+          generateCaptcha();
+      });
+
+      // Event listener untuk form submission
+      loginForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Mencegah form submit default
+
+        // Validasi captcha sebelum mengarahkan
+        if (captchaKeyUpValidate()) {
+          // Jika captcha benar, arahkan ke dashboard.php
+          window.location.href = 'dashboard.php';
+        } else {
+          // Jika captcha salah, jangan arahkan dan biarkan pesan error tampil
+          if (captchaInputBox.value.length === 0) {
+            message.style.color = "#ff0000";
+            message.innerText = "Please enter the captcha.";
+          }
+        }
+      });
+    </script>
   </body>
 </html>

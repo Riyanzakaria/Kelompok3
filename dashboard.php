@@ -139,7 +139,7 @@
               <small class="text-muted d-block">10 May 2025</small>
               <small class="text-muted d-block mb-1">JNM Bloc</small>
               <p class="text-danger fw-bold mb-2" style="font-size: 0.9rem;">Rp 500.000</p>
-              <a class="btn btn-sm btn-primary" href="detail-event.html" style="background-color: #1e3a8a; border:none;">Beli Tiket</a>
+              <a class="btn btn-sm btn-primary" href="detail-event.php" style="background-color: #1e3a8a; border:none;">Beli Tiket</a>
             </div>
           </div>
           
@@ -209,9 +209,11 @@
 
   <!-- Event Recommendations -->
 <section class=" bg-white position-relative">
-  <div class="container">
-    <h2 class="fw-bold mb-4">Rekomendasi Event</h2>
+  <div class="container d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold mb-0">Rekomendasi Event</h2>
+    <a href="dashboard_tiket.php" class="btn btn-sm btn-outline-primary" style="border: none; color: #1e3a8a;">Lihat Lainnya</a>
   </div>
+  
 
   <div class="position-relative" style="max-width: 1200px; margin: 0 auto;">
     <div class="swiper-container posisition-relative">
@@ -225,7 +227,7 @@
             <small class="text-muted d-block mb-1">JNM Bloc</small>
             <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
               <p class="text-danger fw-bold mb-2 text-center" style="font-size: 0.9rem;">Rp 500.000</p>
-              <a class="btn btn-sm btn-primary" href="detail-event.html" style="background-color: #1e3a8a; border:none;">Beli Tiket</a>
+              <a class="btn btn-sm btn-primary" href="detail-event.php" style="background-color: #1e3a8a; border:none;">Beli Tiket</a>
               </div>
           </div>
         </div> <div class="swiper-slide bg-white shadow rounded overflow-hidden" style="max-height: 400px;">
@@ -236,7 +238,7 @@
             <small class="text-muted d-block mb-1">JNM Bloc</small>
             <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
               <p class="text-danger fw-bold mb-2 text-center" style="font-size: 0.9rem;">Rp 500.000</p>
-              <a class="btn btn-sm btn-primary" href="detail-event.html" style="background-color: #1e3a8a; border:none;">Beli Tiket</a>
+              <a class="btn btn-sm btn-primary" href="detail-event.php" style="background-color: #1e3a8a; border:none;">Beli Tiket</a>
               </div>
           </div>
         </div>
@@ -248,7 +250,7 @@
             <small class="text-muted d-block mb-1">JNM Bloc</small>
             <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
               <p class="text-danger fw-bold mb-2 text-center" style="font-size: 0.9rem;">Rp 500.000</p>
-              <a class="btn btn-sm btn-primary" href="detail-event.html" style="background-color: #1e3a8a; border:none;">Beli Tiket</a>
+              <a class="btn btn-sm btn-primary" href="detail-event.php" style="background-color: #1e3a8a; border:none;">Beli Tiket</a>
               </div>
           </div>
         </div>
@@ -260,7 +262,7 @@
             <small class="text-muted d-block mb-1">JNM Bloc</small>
             <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
               <p class="text-danger fw-bold mb-2 text-center" style="font-size: 0.9rem;">Rp 500.000</p>
-              <a class="btn btn-sm btn-primary" href="detail-event.html" style="background-color: #1e3a8a; border:none;">Beli Tiket</a>
+              <a class="btn btn-sm btn-primary" href="detail-event.php" style="background-color: #1e3a8a; border:none;">Beli Tiket</a>
               </div>
           </div>
         </div>
@@ -272,7 +274,7 @@
             <small class="text-muted d-block mb-1">JNM Bloc</small>
             <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
               <p class="text-danger fw-bold mb-2 text-center" style="font-size: 0.9rem;">Rp 500.000</p>
-              <a class="btn btn-sm btn-primary" href="detail-event.html" style="background-color: #1e3a8a; border:none;">Beli Tiket</a>
+              <a class="btn btn-sm btn-primary" href="detail-event.php" style="background-color: #1e3a8a; border:none;">Beli Tiket</a>
               </div>
           </div>
         </div>
@@ -284,6 +286,8 @@
     <div class="swiper-button-next"></div>
     <div class="swiper-pagination"></div>
   </div>
+
+  
 </section>
 
   <!-- Scripts -->

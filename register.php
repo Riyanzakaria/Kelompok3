@@ -56,6 +56,8 @@
       padding-left: 0 !important;
       padding-right: 0 !important;
       z-index: 1;
+      /* Tambahkan overflow-y untuk scrolling jika konten lebih panjang */
+      overflow-y: auto;
     }
 
     .col-md-8.background-section {
@@ -182,12 +184,20 @@
     .btn-google:hover {
       background-color: #f3f4f6;
     }
+    .form-error {
+        color: #ffdddd; /* Warna merah muda untuk error */
+        font-size: 0.875em;
+        margin-top: -10px;
+        margin-bottom: 10px;
+    }
+
 
     @media (max-width: 767.98px) { 
       .col-md-4.form-column {
         height: auto; 
         min-height: 100vh; 
         width: 100% !important; 
+        overflow-y: auto; /* Pastikan scrolling juga ada di mobile */
       }
       .col-md-8.background-section {
         display: none; 
@@ -219,39 +229,45 @@
             <img src="foto/logoputih.png" alt="Logo" width="30" height="30" class="me-2">
             HARMONIXX
           </a>
-          <a href="Login1.html" class="sign-link">Sign In!</a>
+          <a href="login.php" class="sign-link">Sign In!</a> <!-- Mengarahkan ke login.php -->
         </div>
       </nav>        
       <div class="row w-100">
         <div class="col-md-4 form-column">
           <div class="form-section-inner"> 
-            <form>
+            <form id="registerForm"> <!-- Tambahkan id pada form -->
               <div class="mb-3">
                 <label for="exampleUsername" class="form-label">Username</label>
-                <input type="text" class="form-control" id="exampleUsername" placeholder="username">
+                <input type="text" class="form-control" id="exampleUsername" name="username" placeholder="username" required>
+                <div class="form-error" id="usernameError"></div>
               </div>
               <div class="mb-3">
                 <label for="examplePhoneNumber" class="form-label">Phone Number</label>
-                <input type="tel" class="form-control" id="examplePhoneNumber" placeholder="08123456789">
+                <input type="tel" class="form-control" id="examplePhoneNumber" name="phoneNumber" placeholder="08123456789" required pattern="08[0-9]{8,11}">
+                <div class="form-error" id="phoneError"></div>
               </div>
               <div class="mb-3">
                 <label for="exampleBirthdate" class="form-label">Birth Date</label>
-                <input type="date" class="form-control" id="exampleBirthdate">
+                <input type="date" class="form-control" id="exampleBirthdate" name="birthdate" required>
+                <div class="form-error" id="birthdateError"></div>
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email Address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="user@email.com">
+                <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="user@email.com" required>
+                <div class="form-error" id="emailError"></div>
               </div>
               
               <div class="mb-3"> 
                 <div class="password-row">
                   <div> 
                     <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="password">
+                    <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="password" required minlength="8">
+                    <div class="form-error" id="passwordError"></div>
                   </div>
                   <div> 
                     <label for="examplePasswordConfirm" class="form-label">Confirm Password</label>
-                    <input type="password" class="form-control" id="examplePasswordConfirm" placeholder="password">
+                    <input type="password" class="form-control" id="examplePasswordConfirm" name="passwordConfirm" placeholder="password" required>
+                    <div class="form-error" id="passwordConfirmError"></div>
                   </div>
                 </div>
               </div>
@@ -268,7 +284,87 @@
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <!-- Popper.js dan Bootstrap.js individual tidak diperlukan jika sudah ada bundle -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script> -->
+
+    <script>
+      const registerForm = document.getElementById('registerForm');
+      const usernameInput = document.getElementById('exampleUsername');
+      const phoneInput = document.getElementById('examplePhoneNumber');
+      const birthdateInput = document.getElementById('exampleBirthdate');
+      const emailInput = document.getElementById('exampleInputEmail1');
+      const passwordInput = document.getElementById('exampleInputPassword1');
+      const passwordConfirmInput = document.getElementById('examplePasswordConfirm');
+
+      function showError(elementId, message) {
+        document.getElementById(elementId).innerText = message;
+      }
+
+      function clearError(elementId) {
+        document.getElementById(elementId).innerText = "";
+      }
+
+      function validateForm() {
+        let isValid = true;
+        clearError('usernameError');
+        clearError('phoneError');
+        clearError('birthdateError');
+        clearError('emailError');
+        clearError('passwordError');
+        clearError('passwordConfirmError');
+
+        if (usernameInput.value.trim() === "") {
+          showError('usernameError', 'Username is required.');
+          isValid = false;
+        }
+
+        if (phoneInput.value.trim() === "") {
+          showError('phoneError', 'Phone number is required.');
+          isValid = false;
+        } else if (!/^08[0-9]{8,11}$/.test(phoneInput.value)) {
+          showError('phoneError', 'Invalid phone number format (e.g., 081234567890).');
+          isValid = false;
+        }
+        
+        if (birthdateInput.value === "") {
+          showError('birthdateError', 'Birth date is required.');
+          isValid = false;
+        }
+
+        if (emailInput.value.trim() === "") {
+          showError('emailError', 'Email is required.');
+          isValid = false;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value)) {
+          showError('emailError', 'Invalid email format.');
+          isValid = false;
+        }
+
+        if (passwordInput.value.length < 8) {
+          showError('passwordError', 'Password must be at least 8 characters long.');
+          isValid = false;
+        }
+
+        if (passwordConfirmInput.value === "") {
+          showError('passwordConfirmError', 'Please confirm your password.');
+          isValid = false;
+        } else if (passwordInput.value !== passwordConfirmInput.value) {
+          showError('passwordConfirmError', 'Passwords do not match.');
+          isValid = false;
+        }
+        
+        return isValid;
+      }
+
+
+      registerForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Mencegah form submit default
+
+        if (validateForm()) {
+            // Jika semua validasi lolos, arahkan ke dashboard.php
+            window.location.href = 'dashboard.php';
+        }
+      });
+    </script>
   </body>
 </html>

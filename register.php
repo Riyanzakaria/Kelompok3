@@ -1,13 +1,21 @@
+<?php
+session_start();
+// Jika pengguna sudah login, arahkan ke dashboard
+if (isset($_SESSION['user_id'])) {
+  header('Location: dashboard.php');
+  exit;
+}
+?>
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Register</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
-    <link rel="icon" href="foto/logoputih.png" type="img/png" sizes="16x16">
-  </head>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registrasi - Harmonix</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+  <link rel="icon" href="foto/logoputih.png" type="image/png">
   <style>
     body {
       position: relative;
@@ -26,25 +34,22 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.6);
       z-index: -1;
     }
 
-  
-    .container {
+    .container-fluid.main-container {
       height: 100vh;
       display: flex;
-      align-items: center;
-      justify-content: flex-start; 
       padding: 0 !important;
       width: 100%;
-      max-width: none;
     }
 
-    .row {
-      height: 100%;
-      margin: 0;
+    .form-column-wrapper {
+      display: flex;
+      justify-content: flex-start;
       width: 100%;
+      height: 100%;
     }
 
     .col-md-4.form-column {
@@ -52,23 +57,24 @@
       height: 100vh;
       display: flex;
       align-items: center;
-      justify-content: center; 
+      justify-content: center;
       padding-left: 0 !important;
       padding-right: 0 !important;
       z-index: 1;
-      /* Tambahkan overflow-y untuk scrolling jika konten lebih panjang */
       overflow-y: auto;
+      flex-shrink: 0;
     }
 
     .col-md-8.background-section {
       height: 100vh;
       background: transparent;
       padding: 0;
+      flex-grow: 1;
     }
 
     .navbar {
       background: transparent !important;
-      padding: 10px 20px;
+      padding: 15px 30px;
       z-index: 2;
       width: 100%;
       position: fixed;
@@ -76,13 +82,14 @@
     }
 
     .navbar-brand {
-      font-size: 18px;
+      font-size: 1.25rem;
       font-weight: bold;
     }
 
     .sign-link {
       color: white;
       text-decoration: none;
+      font-weight: 500;
     }
 
     .sign-link:hover {
@@ -90,281 +97,367 @@
     }
 
     .form-section-inner {
-      background: transparent; 
-      padding: 40px 20px;
+      background: transparent;
+      padding: 30px 40px;
       width: 100%;
-      max-width: none; 
-      margin: 0;
+      max-width: 400px;
+      margin: auto;
     }
 
     .form-control {
       background: rgba(255, 255, 255, 0.9);
-      border: none;
+      border: 1px solid transparent;
       color: black;
-      border-radius: 5px;
-      padding: 10px;
+      border-radius: 8px;
+      padding: 12px 15px;
       width: 100%;
-      font-size: 16px;
-      margin-bottom: 15px; 
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
       display: block;
+      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     }
 
     .form-control::placeholder {
-      color: rgba(0, 0, 0, 0.5);
+      color: #6c757d;
     }
 
     .form-control:focus {
-      background: rgba(255, 255, 255, 1);
+      background: white;
       color: black;
       outline: none;
-      box-shadow: none;
+      box-shadow: 0 0 0 0.25rem rgba(31, 41, 55, 0.25);
+      border-color: #1f2937;
     }
 
     .form-label {
       color: white;
-      margin-bottom: 5px;
+      margin-bottom: 0.3rem;
       display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
     }
 
     .password-row {
       display: flex;
-      gap: 15px; 
-    }
-    
-    .password-row > div {
-        flex: 1; 
+      gap: 1rem;
+      margin-bottom: 1rem;
     }
 
-    .password-row .form-control {
-      margin-bottom: 0; 
+    /* Dulu margin-bottom: 1rem; */
+    .password-row>div {
+      flex: 1;
     }
-    .password-row .mb-3 { 
-        margin-bottom: 0 !important; 
+
+    .password-row>div .mb-3 {
+      margin-bottom: 0 !important;
     }
+
+    /* Menghapus margin bawah dari .mb-3 di dalam .password-row */
 
     .btn-register {
       background-color: #1f2937;
       color: white;
       border: none;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 5px;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 8px;
       cursor: pointer;
       transition: background-color 0.3s, transform 0.1s;
       display: block;
       width: 100%;
       text-align: center;
-      margin-top: 15px; 
+      margin-top: 1.5rem;
+      font-weight: 500;
     }
 
     .btn-register:hover {
-      background-color: #4B5563;
+      background-color: #374151;
     }
 
     .btn-register:active {
-      background-color: #6B7280;
-      transform: scale(0.95);
+      background-color: #4b5563;
+      transform: scale(0.98);
     }
 
     .btn-google {
       background-color: white;
-      color: black;
+      color: #374151;
       border: 1px solid #d1d5db;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 5px;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 8px;
       cursor: pointer;
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 100%;
       text-align: center;
-      margin-top: 15px;
+      margin-top: 1rem;
       transition: background-color 0.3s;
+      font-weight: 500;
     }
 
     .btn-google:hover {
-      background-color: #f3f4f6;
+      background-color: #f9fafb;
     }
+
+    .btn-google i {
+      margin-right: 0.5rem;
+    }
+
     .form-error {
-        color: #ffdddd; /* Warna merah muda untuk error */
-        font-size: 0.875em;
-        margin-top: -10px;
-        margin-bottom: 10px;
+      color: #fca5a5;
+      background-color: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 4px;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+      margin-bottom: 0.5rem;
+      display: block;
     }
 
+    .form-error:empty {
+      display: none;
+    }
 
-    @media (max-width: 767.98px) { 
+    .text-center.mt-3 a {
+      color: #9ca3af;
+      text-decoration: none;
+    }
+
+    .text-center.mt-3 a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    h2.form-title {
+      color: white;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 767.98px) {
       .col-md-4.form-column {
-        height: auto; 
-        min-height: 100vh; 
-        width: 100% !important; 
-        overflow-y: auto; /* Pastikan scrolling juga ada di mobile */
+        height: auto;
+        min-height: 100vh;
+        width: 100% !important;
+        overflow-y: auto;
+        padding-top: 80px !important;
       }
+
       .col-md-8.background-section {
-        display: none; 
+        display: none;
       }
-      .container {
-        justify-content: center; 
+
+      .form-column-wrapper {
+        justify-content: center;
       }
+
       .form-section-inner {
-        padding: 40px; 
-        max-width: 450px; 
+        padding: 20px;
       }
+
       .password-row {
-        flex-direction: column; 
-        gap: 0; 
+        flex-direction: column;
+        gap: 0;
       }
-      .password-row > div {
-        margin-bottom: 15px; 
+
+      .password-row>div {
+        margin-bottom: 1rem;
       }
-      .password-row > div:last-child {
-        margin-bottom: 0; 
+
+      .password-row>div:last-child {
+        margin-bottom: 0;
+      }
+
+      .navbar {
+        padding: 10px 15px;
       }
     }
   </style>
-  <body>
-    <div class="container">
-      <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container-fluid">
-          <a class="navbar-brand text-white d-flex align-items-center" href="#">
-            <img src="foto/logoputih.png" alt="Logo" width="30" height="30" class="me-2">
-            HARMONIXX
-          </a>
-          <a href="login.php" class="sign-link">Sign In!</a> <!-- Mengarahkan ke login.php -->
-        </div>
-      </nav>        
-      <div class="row w-100">
-        <div class="col-md-4 form-column">
-          <div class="form-section-inner"> 
-            <form id="registerForm"> <!-- Tambahkan id pada form -->
-              <div class="mb-3">
-                <label for="exampleUsername" class="form-label">Username</label>
-                <input type="text" class="form-control" id="exampleUsername" name="username" placeholder="username" required>
-                <div class="form-error" id="usernameError"></div>
-              </div>
-              <div class="mb-3">
-                <label for="examplePhoneNumber" class="form-label">Phone Number</label>
-                <input type="tel" class="form-control" id="examplePhoneNumber" name="phoneNumber" placeholder="08123456789" required pattern="08[0-9]{8,11}">
-                <div class="form-error" id="phoneError"></div>
-              </div>
-              <div class="mb-3">
-                <label for="exampleBirthdate" class="form-label">Birth Date</label>
-                <input type="date" class="form-control" id="exampleBirthdate" name="birthdate" required>
-                <div class="form-error" id="birthdateError"></div>
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email Address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="user@email.com" required>
-                <div class="form-error" id="emailError"></div>
-              </div>
-              
-              <div class="mb-3"> 
-                <div class="password-row">
-                  <div> 
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="password" required minlength="8">
-                    <div class="form-error" id="passwordError"></div>
-                  </div>
-                  <div> 
-                    <label for="examplePasswordConfirm" class="form-label">Confirm Password</label>
-                    <input type="password" class="form-control" id="examplePasswordConfirm" name="passwordConfirm" placeholder="password" required>
-                    <div class="form-error" id="passwordConfirmError"></div>
-                  </div>
-                </div>
-              </div>
 
-              <button class="btn btn-google" type="button">
-                <i class="fab fa-google me-2"></i> Continue with Google
-              </button>
-
-              <button class="btn-register" type="submit">Register</button>
-            </form>
-          </div>
+<body>
+  <div class="container-fluid main-container">
+    <nav class="navbar navbar-expand-lg fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand text-white d-flex align-items-center" href="dashboard.php">
+          <img src="foto/logoputih.png" alt="Logo" width="30" height="30" class="me-2"> HARMONIX
+        </a>
+        <span class="text-white me-2 d-none d-sm-inline">Sudah punya akun?</span>
+        <a href="login.php" class="sign-link">Masuk!</a>
+      </div>
+    </nav>
+    <div class="form-column-wrapper">
+      <div class="col-md-4 form-column">
+        <div class="form-section-inner">
+          <h2 class="form-title">Buat Akun Baru</h2>
+          <form id="registerForm" novalidate>
+            <div class="mb-3">
+              <label for="exampleUsername" class="form-label">Username</label>
+              <input type="text" class="form-control" id="exampleUsername" name="username"
+                placeholder="Masukkan username Anda" required>
+              <div class="form-error" id="usernameError"></div>
+            </div>
+            <div class="mb-3">
+              <label for="examplePhoneNumber" class="form-label">Nomor Telepon</label>
+              <input type="tel" class="form-control" id="examplePhoneNumber" name="phoneNumber"
+                placeholder="08xxxxxxxxxx" required pattern="08[0-9]{8,11}">
+              <div class="form-error" id="phoneError"></div>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Alamat Email</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" name="email"
+                placeholder="nama@contoh.com" required>
+              <div class="form-error" id="emailError"></div>
+            </div>
+            <div class="password-row">
+              <div class="mb-3"> <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="password"
+                  placeholder="Minimal 8 karakter" required minlength="8">
+                <div class="form-error" id="passwordError"></div>
+              </div>
+              <div class="mb-3"> <label for="examplePasswordConfirm" class="form-label">Konfirmasi Password</label>
+                <input type="password" class="form-control" id="examplePasswordConfirm" name="passwordConfirm"
+                  placeholder="Ulangi password" required>
+                <div class="form-error" id="passwordConfirmError"></div>
+              </div>
+            </div>
+            <button class="btn-register" type="submit">DAFTAR</button>
+            <p class="text-center my-3" style="color: #adb5bd;">atau</p>
+            <button class="btn btn-google" type="button"> <i class="fab fa-google"></i> Lanjutkan dengan Google
+            </button>
+          </form>
+          <p class="text-center mt-3"><small>Dengan mendaftar, Anda menyetujui<br><a href="#">Ketentuan Layanan</a> & <a
+                href="#">Kebijakan Privasi</a> kami.</small></p>
         </div>
-        <div class="col-md-8 background-section"></div>
+      </div>
+      <div class="col-md-8 background-section d-none d-md-block">
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <!-- Popper.js dan Bootstrap.js individual tidak diperlukan jika sudah ada bundle -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script> -->
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const registerForm = document.getElementById('registerForm');
+    const usernameInput = document.getElementById('exampleUsername');
+    const phoneInput = document.getElementById('examplePhoneNumber');
+    // const birthdateInput = document.getElementById('exampleBirthdate'); // DIHAPUS
+    const emailInput = document.getElementById('exampleInputEmail1');
+    const passwordInput = document.getElementById('exampleInputPassword1');
+    const passwordConfirmInput = document.getElementById('examplePasswordConfirm');
 
-    <script>
-      const registerForm = document.getElementById('registerForm');
-      const usernameInput = document.getElementById('exampleUsername');
-      const phoneInput = document.getElementById('examplePhoneNumber');
-      const birthdateInput = document.getElementById('exampleBirthdate');
-      const emailInput = document.getElementById('exampleInputEmail1');
-      const passwordInput = document.getElementById('exampleInputPassword1');
-      const passwordConfirmInput = document.getElementById('examplePasswordConfirm');
-
-      function showError(elementId, message) {
-        document.getElementById(elementId).innerText = message;
-      }
-
-      function clearError(elementId) {
-        document.getElementById(elementId).innerText = "";
-      }
-
-      function validateForm() {
-        let isValid = true;
-        clearError('usernameError');
-        clearError('phoneError');
-        clearError('birthdateError');
-        clearError('emailError');
-        clearError('passwordError');
-        clearError('passwordConfirmError');
-
-        if (usernameInput.value.trim() === "") {
-          showError('usernameError', 'Username is required.');
-          isValid = false;
-        }
-
-        if (phoneInput.value.trim() === "") {
-          showError('phoneError', 'Phone number is required.');
-          isValid = false;
-        } else if (!/^08[0-9]{8,11}$/.test(phoneInput.value)) {
-          showError('phoneError', 'Invalid phone number format (e.g., 081234567890).');
-          isValid = false;
-        }
-        
-        if (birthdateInput.value === "") {
-          showError('birthdateError', 'Birth date is required.');
-          isValid = false;
-        }
-
-        if (emailInput.value.trim() === "") {
-          showError('emailError', 'Email is required.');
-          isValid = false;
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value)) {
-          showError('emailError', 'Invalid email format.');
-          isValid = false;
-        }
-
-        if (passwordInput.value.length < 8) {
-          showError('passwordError', 'Password must be at least 8 characters long.');
-          isValid = false;
-        }
-
-        if (passwordConfirmInput.value === "") {
-          showError('passwordConfirmError', 'Please confirm your password.');
-          isValid = false;
-        } else if (passwordInput.value !== passwordConfirmInput.value) {
-          showError('passwordConfirmError', 'Passwords do not match.');
-          isValid = false;
-        }
-        
-        return isValid;
-      }
-
-
-      registerForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // Mencegah form submit default
-
-        if (validateForm()) {
-            // Jika semua validasi lolos, arahkan ke dashboard.php
-            window.location.href = 'dashboard.php';
-        }
+    function showError(elementId, message) {
+      const errorElement = document.getElementById(elementId);
+      const inputEl = document.getElementById(elementId.replace('Error', ''));
+      if (errorElement) errorElement.innerText = message;
+      if (inputEl) inputEl.classList.add('is-invalid');
+    }
+    function clearError(elementId) {
+      const errorElement = document.getElementById(elementId);
+      const inputEl = document.getElementById(elementId.replace('Error', ''));
+      if (errorElement) errorElement.innerText = "";
+      if (inputEl) inputEl.classList.remove('is-invalid');
+    }
+    function clearAllErrors() {
+      // 'birthdateError' DIHAPUS dari array ini
+      ['usernameError', 'phoneError', 'emailError', 'passwordError', 'passwordConfirmError'].forEach(id => {
+        const errorElement = document.getElementById(id);
+        if (errorElement) clearError(id); // Hanya panggil clearError jika elemennya ada
       });
-    </script>
-  </body>
+      document.querySelectorAll('.form-control.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+    }
+
+    function validateForm() {
+      let isValid = true;
+      clearAllErrors();
+
+      if (usernameInput.value.trim() === "") { showError('usernameError', 'Username wajib diisi.'); isValid = false; }
+
+      if (phoneInput.value.trim() === "") { showError('phoneError', 'Nomor telepon wajib diisi.'); isValid = false; }
+      else if (!/^08[0-9]{8,11}$/.test(phoneInput.value.trim())) { showError('phoneError', 'Format nomor telepon tidak valid (contoh: 081234567890).'); isValid = false; }
+
+      // Validasi Tanggal Lahir DIHAPUS
+      // if (birthdateInput && birthdateInput.value === "") { showError('birthdateError', 'Tanggal lahir wajib diisi.'); isValid = false; } 
+      // else if (birthdateInput) { 
+      // Validasi usia (opsional)
+      // }
+
+      if (emailInput.value.trim() === "") { showError('emailError', 'Email wajib diisi.'); isValid = false; }
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim())) { showError('emailError', 'Format email tidak valid.'); isValid = false; }
+
+      if (passwordInput.value.length === 0) { showError('passwordError', 'Password wajib diisi.'); isValid = false; }
+      else if (passwordInput.value.length < 8) { showError('passwordError', 'Password minimal harus 8 karakter.'); isValid = false; }
+
+      if (passwordConfirmInput.value === "") { showError('passwordConfirmError', 'Mohon konfirmasi password Anda.'); isValid = false; }
+      else if (passwordInput.value !== passwordConfirmInput.value) { showError('passwordConfirmError', 'Password tidak cocok.'); isValid = false; }
+
+      return isValid;
+    }
+
+    registerForm.addEventListener('submit', async function (event) {
+      event.preventDefault();
+      const submitButton = registerForm.querySelector('.btn-register');
+      const originalButtonText = submitButton.innerHTML;
+
+      clearAllErrors(); // Bersihkan error sebelum validasi baru
+
+      if (validateForm()) { // Lakukan validasi sisi klien
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Mendaftar...';
+
+        const formData = new FormData(registerForm);
+        // Tidak perlu menambahkan field birthdate ke formData karena sudah dihapus dari HTML
+
+        try {
+          const response = await fetch('proses_register.php', {
+            method: 'POST',
+            body: formData
+          });
+          const resultText = await response.text();
+          try {
+            const result = JSON.parse(resultText);
+            if (result.success) {
+              alert(result.message); // Pesan dari server
+              if (result.redirect_url) {
+                window.location.href = result.redirect_url; // Misal ke dashboard jika auto-login
+              } else {
+                window.location.href = 'login.php'; // Atau default ke login
+              }
+            } else {
+              // Tampilkan error dari server, bisa di field tertentu atau sebagai alert umum
+              if (result.message) {
+                if (result.message.toLowerCase().includes('email')) {
+                  showError('emailError', result.message);
+                  emailInput.focus();
+                } else if (result.message.toLowerCase().includes('username')) {
+                  showError('usernameError', result.message);
+                  usernameInput.focus();
+                } else {
+                  alert('Registrasi Gagal: ' + result.message);
+                }
+              } else {
+                alert('Registrasi Gagal: Terjadi kesalahan tidak diketahui dari server.');
+              }
+            }
+          } catch (jsonError) {
+            console.error("Gagal parsing JSON dari server:", jsonError);
+            console.error("Respons server (teks):", resultText);
+            alert("Terjadi kesalahan pada respons server. Silakan coba lagi atau hubungi admin.");
+          }
+        } catch (error) {
+          console.error('Error saat fetch:', error);
+          alert('Terjadi kesalahan saat mencoba mendaftar. Periksa koneksi Anda dan coba lagi.');
+        } finally {
+          submitButton.disabled = false;
+          submitButton.innerHTML = originalButtonText;
+        }
+      } else {
+        const firstErrorField = document.querySelector('.form-control.is-invalid');
+        if (firstErrorField) firstErrorField.focus();
+      }
+    });
+  </script>
+</body>
+
 </html>

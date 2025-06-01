@@ -1,13 +1,21 @@
+<?php
+session_start();
+// Jika pengguna sudah login, langsung arahkan ke dashboard
+if (isset($_SESSION['user_id'])) {
+  header('Location: dashboard.php');
+  exit;
+}
+?>
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
-    <link rel="icon" href="foto/logoputih.png" type="img/png" sizes="16x16">
-  </head>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login - Harmonix</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+  <link rel="icon" href="foto/logoputih.png" type="image/png">
   <style>
     body {
       position: relative;
@@ -26,27 +34,25 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.6);
       z-index: -1;
     }
 
-    .container {
+    .container-fluid.main-container {
       height: 100vh;
       display: flex;
-      align-items: center;
-      justify-content: flex-start;
       padding: 0 !important;
       width: 100%;
-      max-width: none;
     }
 
-    .row {
-      height: 100%;
-      margin: 0;
+    .form-column-wrapper {
+      display: flex;
+      justify-content: flex-start;
       width: 100%;
+      height: 100%;
     }
 
-    .col-md-4 {
+    .col-md-4.form-column {
       background-color: #142F86;
       height: 100vh;
       display: flex;
@@ -55,121 +61,146 @@
       padding-left: 0 !important;
       padding-right: 0 !important;
       z-index: 1;
+      overflow-y: auto;
+      flex-shrink: 0;
     }
 
     .col-md-8.background-section {
       height: 100vh;
       background: transparent;
       padding: 0;
+      flex-grow: 1;
     }
 
     .navbar {
       background: transparent !important;
-      padding: 10px 20px;
+      padding: 15px 30px;
       z-index: 2;
       width: 100%;
+      position: fixed;
+      top: 0;
     }
 
     .navbar-brand {
-      font-size: 18px;
+      font-size: 1.25rem;
       font-weight: bold;
     }
 
     .sign-link {
       color: white;
       text-decoration: none;
+      font-weight: 500;
     }
 
     .sign-link:hover {
       text-decoration: underline;
     }
 
-    .form-section {
+    .form-section-inner {
       background: transparent;
-      padding: 40px 20px;
+      padding: 30px 40px;
       width: 100%;
-      max-width: none;
-      margin: 0;
+      max-width: 400px;
+      margin: auto;
     }
 
     .form-control {
       background: rgba(255, 255, 255, 0.9);
-      border: none;
+      border: 1px solid transparent;
       color: black;
-      border-radius: 5px;
-      padding: 10px;
+      border-radius: 8px;
+      padding: 12px 15px;
       width: 100%;
-      font-size: 16px;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      display: block;
+      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     }
 
     .form-control::placeholder {
-      color: rgba(0, 0, 0, 0.5);
+      color: #6c757d;
     }
 
     .form-control:focus {
-      background: rgba(255, 255, 255, 1);
+      background: white;
       color: black;
       outline: none;
-      box-shadow: none;
+      box-shadow: 0 0 0 0.25rem rgba(31, 41, 55, 0.25);
+      border-color: #1f2937;
     }
 
     .form-label {
       color: white;
+      margin-bottom: 0.3rem;
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
     }
 
     .btn-login {
       background-color: #1f2937;
       color: white;
       border: none;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 5px;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 8px;
       cursor: pointer;
       transition: background-color 0.3s, transform 0.1s;
       display: block;
       width: 100%;
       text-align: center;
-      margin-top: 15px;
+      margin-top: 1.5rem;
+      font-weight: 500;
     }
 
     .btn-login:hover {
-      background-color: #4B5563;
+      background-color: #374151;
     }
 
     .btn-login:active {
-      background-color: #6B7280;
-      transform: scale(0.95);
+      background-color: #4b5563;
+      transform: scale(0.98);
     }
 
     .btn-google {
       background-color: white;
-      color: black;
+      color: #374151;
       border: 1px solid #d1d5db;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 5px;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 8px;
       cursor: pointer;
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 100%;
       text-align: center;
-      margin-top: 15px;
+      margin-top: 1rem;
       transition: background-color 0.3s;
+      font-weight: 500;
     }
 
     .btn-google:hover {
-      background-color: #f3f4f6;
+      background-color: #f9fafb;
+    }
+
+    .btn-google i {
+      margin-right: 0.5rem;
     }
 
     .create-account-link {
       display: block;
       text-align: center;
-      margin-top: 15px;
-      color: white;
+      margin-top: 1.5rem;
+      color: #9ca3af;
       text-decoration: none;
-      font-weight: bold;
     }
 
-    .create-account-link:hover {
+    .create-account-link strong {
+      color: white;
+    }
+
+    .create-account-link:hover strong {
       text-decoration: underline;
     }
 
@@ -178,28 +209,33 @@
       justify-content: space-between;
       align-items: center;
       width: 100%;
-      margin-top: 10px;
+      margin-top: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
     }
 
     .forgot-link {
-      color: #38BDF8;
+      color: #60a5fa;
       text-decoration: none;
     }
 
     .forgot-link:hover {
       text-decoration: underline;
+      color: #93c5fd;
     }
 
     .checkbox-remember {
       appearance: none;
-      width: 18px;
-      height: 18px;
-      border: 2px solid #ffffff;
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid #9ca3af;
       background-color: transparent;
       border-radius: 4px;
       position: relative;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
+      margin-right: 0.3rem;
+      vertical-align: middle;
     }
 
     .checkbox-remember:checked {
@@ -209,13 +245,17 @@
 
     .checkbox-remember:checked::after {
       content: "✔";
-      font-size: 14px;
-      color: #111827;
+      font-size: 11px;
+      color: #142F86;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       font-weight: bold;
+    }
+
+    .form-check-label {
+      color: #d1d5db;
     }
 
     .captcha-section {
@@ -224,187 +264,305 @@
       align-items: center;
       width: 100%;
       gap: 10px;
+      margin-bottom: 0.5rem;
     }
 
     .input_field.captch_box {
       display: flex;
       align-items: center;
-      width: 48%;
-      border-radius: 5px;
+      width: 60%;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      overflow: hidden;
     }
 
     .input_field.captch_box input {
-      background: rgba(255, 255, 255, 0.9);
+      background: transparent;
       border: none;
-      color: black !important; 
-      border-radius: 5px 0 0 5px;
-      padding: 8px;
+      color: black !important;
+      padding: 10px;
       flex-grow: 1;
-      font-size: 14px;
-      height: 38px;
+      font-size: 0.95rem;
+      height: 42px;
+      outline: none;
+      text-align: center;
+      letter-spacing: 2px;
     }
 
     .refresh_button {
-      background: rgba(255, 255, 255, 0.9);
+      background: transparent;
       border: none;
-      color: black;
+      color: #4b5563;
       cursor: pointer;
-      padding: 8px 12px;
-      border-radius: 0 5px 5px 0;
-      height: 38px;
+      padding: 0 12px;
+      height: 42px;
       display: flex;
       align-items: center;
+      border-left: 1px solid #d1d5db;
     }
 
     .refresh_button i {
-      font-size: 14px;
+      font-size: 0.9rem;
     }
 
     .input_field.captch_input {
-      width: 48%;
+      width: 40%;
     }
 
     .input_field.captch_input input {
       width: 100%;
-      border-radius: 5px;
-      padding: 8px;
-      font-size: 14px;
-      height: 38px;
-      color: black; 
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 0.95rem;
+      height: 42px;
+      color: black;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid transparent;
+    }
+
+    .input_field.captch_input input:focus {
+      background: white;
+      color: black;
+      outline: none;
+      box-shadow: 0 0 0 0.25rem rgba(31, 41, 55, 0.25);
+      border-color: #1f2937;
     }
 
     .message {
+      color: #fca5a5;
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+      display: block;
+      height: 1.2em;
+    }
+
+    .message.success {
+      color: #86efac;
+    }
+
+    .login-error-message {
+      color: #fca5a5;
+      background-color: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 4px;
+      padding: 0.5rem 0.8rem;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    /* Untuk error login global */
+    h2.form-title {
       color: white;
-      font-size: 12px;
-      margin-top: 5px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 767.98px) {
+      .col-md-4.form-column {
+        height: auto;
+        min-height: 100vh;
+        width: 100% !important;
+        overflow-y: auto;
+        padding-top: 80px !important;
+      }
+
+      .col-md-8.background-section {
+        display: none;
+      }
+
+      .form-column-wrapper {
+        justify-content: center;
+      }
+
+      .form-section-inner {
+        padding: 20px;
+      }
+
+      .navbar {
+        padding: 10px 15px;
+      }
+
+      .captcha-section {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+      }
+
+      .input_field.captch_box,
+      .input_field.captch_input {
+        width: 100%;
+      }
     }
   </style>
-  <body>
-    <div class="container">
-      <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container-fluid">
-          <a class="navbar-brand text-white d-flex align-items-center" href="#">
-            <img src="foto/logoputih.png" alt="Logo" width="30" height="30" class="me-2">
-            HARMONIXX
-          </a>
-          <a href="register.php" class="sign-link">Sign Up!</a> <!-- Mengarahkan ke register.php -->
-        </div>
-      </nav>        
-      <div class="row w-100">
-        <div class="col-md-4 d-flex align-items-center">
-          <div class="form-section">
-            <form id="loginForm"> <!-- Tambahkan id pada form -->
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email Address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="user@gmail.com" required>
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="••••••••" required>
-              </div>
-              <div class="mb-3">
-                <div class="captcha-section">
-                  <div class="input_field captch_box">
-                    <input type="text" value="" disabled id="captchaTextBox" />
-                    <button type="button" class="refresh_button" id="refreshCaptcha">
-                      <i class="fa-solid fa-rotate-right"></i>
-                    </button>
-                  </div>
-                  <div class="input_field captch_input">
-                    <input class="form-control" type="text" placeholder="Enter captcha" id="captchaInput" required/>
-                  </div>
+
+<body>
+  <div class="container-fluid main-container">
+    <nav class="navbar navbar-expand-lg fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand text-white d-flex align-items-center" href="dashboard.php">
+          <img src="foto/logoputih.png" alt="Logo" width="30" height="30" class="me-2"> HARMONIX
+        </a>
+        <span class="text-white me-2 d-none d-sm-inline">Belum punya akun?</span>
+        <a href="register.php" class="sign-link">Daftar Sekarang!</a>
+      </div>
+    </nav>
+    <div class="form-column-wrapper">
+      <div class="col-md-4 form-column">
+        <div class="form-section-inner">
+          <h2 class="form-title">Selamat Datang Kembali!</h2>
+          <div class="login-error-message" id="loginErrorMessage"></div>
+          <form id="loginForm" novalidate>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Alamat Email</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" name="email"
+                placeholder="nama@contoh.com" required>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" name="password"
+                placeholder="Masukkan password Anda" required>
+            </div>
+            <div class="mb-3">
+              <label for="captchaInput" class="form-label">Verifikasi CAPTCHA</label>
+              <div class="captcha-section">
+                <div class="input_field captch_box">
+                  <input type="text" value="" disabled id="captchaTextBox" />
+                  <button type="button" class="refresh_button" id="refreshCaptcha"> <i
+                      class="fa-solid fa-rotate-right"></i> </button>
                 </div>
-                <div class="message" id="captchaMessage"></div>
+                <div class="input_field captch_input">
+                  <input class="form-control" type="text" placeholder="Masukkan Captcha" id="captchaInput" required />
+                </div>
               </div>
-              <div class="remember-forgot">
-                <label>
-                  <input type="checkbox" class="checkbox-remember"> Remember Me
-                </label>
-                <a href="forgotPassword.php" class="forgot-link">Forgot Password?</a>
+              <div class="message" id="captchaMessage"></div>
+            </div>
+            <div class="remember-forgot">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input checkbox-remember" id="rememberMe" name="rememberMe">
+                <label class="form-check-label" for="rememberMe">Ingat Saya</label>
               </div>
-              <button class="btn btn-google" type="button">
-                <i class="fab fa-google me-2"></i> Continue with Google
-              </button>
-              <button class="btn-login" type="submit">LOGIN</button>
-              <a href="register.php" class="create-account-link">CREATE ACCOUNT!</a> <!-- Mengarahkan ke register.php -->
-            </form>
-          </div>
+              <a href="forgotPassword.php" class="forgot-link">Lupa Password?</a>
+            </div>
+            <button class="btn-login" type="submit">MASUK</button>
+            <p class="text-center my-3" style="color: #adb5bd;">atau</p>
+            <button class="btn btn-google" type="button"> <i class="fab fa-google"></i> Lanjutkan dengan Google
+            </button>
+            <p class="text-center mt-3 create-account-link">Belum punya akun? <a href="register.php"><strong>Buat
+                  Akun!</strong></a></p>
+          </form>
         </div>
-        <div class="col-md-8 background-section"></div>
+      </div>
+      <div class="col-md-8 background-section d-none d-md-block">
       </div>
     </div>
-    <!-- Hapus script.js yang lama jika hanya untuk captcha, karena kita akan implementasikan di sini -->
-    <!-- <script src="js/script.js"></script> --> 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <!-- Popper.js dan Bootstrap.js individual tidak diperlukan jika sudah ada bundle -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script> -->
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const captchaTextBox = document.getElementById("captchaTextBox");
+    const refreshButton = document.getElementById("refreshCaptcha");
+    const captchaInputBox = document.getElementById("captchaInput");
+    const captchaMessage = document.getElementById("captchaMessage"); // Pesan untuk CAPTCHA
+    const loginErrorMessageDiv = document.getElementById("loginErrorMessage"); // Pesan untuk error login global
+    const loginForm = document.getElementById("loginForm");
+    const emailLoginInput = document.getElementById('exampleInputEmail1');
+    const passwordLoginInput = document.getElementById('exampleInputPassword1');
 
-    <script>
-      // CAPTCHA Script
-      const captchaTextBox = document.getElementById("captchaTextBox");
-      const refreshButton = document.getElementById("refreshCaptcha");
-      const captchaInputBox = document.getElementById("captchaInput");
-      const message = document.getElementById("captchaMessage");
-      const loginForm = document.getElementById("loginForm"); // Ambil form
+    let captchaText = null;
 
-      let captchaText = null;
+    // Fungsi CAPTCHA (implementasi Anda sebelumnya sudah baik)
+    const generateCaptchaImpl = () => { const randomString = Math.random().toString(36).substring(2, 8); const randomStringArray = randomString.split(""); const changeString = randomStringArray.map((char) => (Math.random() > 0.5 ? char.toUpperCase() : char)); captchaText = changeString.join(" "); captchaTextBox.value = captchaText; captchaMessage.innerText = ""; captchaTextBox.style.letterSpacing = "2px"; captchaInputBox.classList.remove('is-invalid', 'is-valid'); };
+    const refreshBtnClickImpl = () => { generateCaptchaImpl(); captchaInputBox.value = ""; captchaInputBox.classList.remove('is-invalid', 'is-valid'); captchaMessage.innerText = ""; loginErrorMessageDiv.style.display = 'none'; };
+    const captchaKeyUpValidateImpl = () => { const inputText = captchaInputBox.value.split(" ").join("").toLowerCase(); const captchaCompareText = captchaText ? captchaText.split(" ").join("").toLowerCase() : ""; captchaInputBox.classList.remove('is-invalid', 'is-valid'); captchaMessage.innerText = ""; if (inputText.length === 0) { return false; } if (inputText === captchaCompareText) { captchaMessage.style.color = "#86efac"; captchaMessage.innerText = "Captcha cocok!"; captchaInputBox.classList.add('is-valid'); return true; } else { captchaMessage.style.color = "#fca5a5"; captchaMessage.innerText = "Captcha tidak cocok."; captchaInputBox.classList.add('is-invalid'); return false; } };
 
-      const generateCaptcha = () => {
-        const randomString = Math.random().toString(36).substring(2, 7);
-        const randomStringArray = randomString.split("");
-        const changeString = randomStringArray.map((char) => (Math.random() > 0.5 ? char.toUpperCase() : char));
-        captchaText = changeString.join("   "); // Tambahkan spasi antar karakter
-        captchaTextBox.value = captchaText;
-      };
+    refreshButton.addEventListener("click", refreshBtnClickImpl);
+    captchaInputBox.addEventListener("input", captchaKeyUpValidateImpl);
+    window.addEventListener("load", () => {
+      generateCaptchaImpl();
+      captchaInputBox.value = "";
+      captchaMessage.innerText = "";
+      loginErrorMessageDiv.style.display = 'none';
+    });
 
-      const refreshBtnClick = () => {
-        generateCaptcha();
-        captchaInputBox.value = "";
-        captchaKeyUpValidate();
-      };
+    loginForm.addEventListener('submit', async function (event) {
+      event.preventDefault();
+      const submitButton = loginForm.querySelector('.btn-login');
+      const originalButtonText = submitButton.innerHTML;
 
-      const captchaKeyUpValidate = () => {
-        const inputText = captchaInputBox.value.split(" ").join(""); // Hilangkan spasi saat validasi
-        const captchaCompareText = captchaText ? captchaText.split(" ").join("") : ""; // Hilangkan spasi dari captchaText
+      loginErrorMessageDiv.style.display = 'none'; // Sembunyikan error login lama
+      captchaMessage.innerText = ""; // Bersihkan pesan captcha lama
 
-        if (inputText === captchaCompareText && inputText.length > 0) {
-          message.style.color = "#82c91e"; // Warna hijau untuk benar
-          message.innerText = "Entered captcha is correct";
-          return true;
-        } else if (inputText.length === 0) {
-          message.innerText = "";
-          return false;
-        }
-        else {
-          message.style.color = "#ff0000"; // Warna merah untuk salah
-          message.innerText = "Entered captcha is not correct";
-          return false;
-        }
-      };
+      let clientSideValid = true;
+      if (emailLoginInput.value.trim() === "") {
+        loginErrorMessageDiv.innerText = "Alamat email wajib diisi.";
+        loginErrorMessageDiv.style.display = 'block';
+        emailLoginInput.focus();
+        clientSideValid = false;
+      } else if (passwordLoginInput.value === "") {
+        loginErrorMessageDiv.innerText = "Password wajib diisi.";
+        loginErrorMessageDiv.style.display = 'block';
+        passwordLoginInput.focus();
+        clientSideValid = false;
+      }
 
-      refreshButton.addEventListener("click", refreshBtnClick);
-      captchaInputBox.addEventListener("keyup", captchaKeyUpValidate);
-      window.addEventListener("load", () => { // Generate captcha saat halaman dimuat
-          generateCaptcha();
-      });
+      // Hanya lanjut jika input dasar terisi dan CAPTCHA benar
+      if (clientSideValid && captchaKeyUpValidateImpl()) {
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sedang memproses...';
 
-      // Event listener untuk form submission
-      loginForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // Mencegah form submit default
+        const formData = new FormData();
+        formData.append('email', emailLoginInput.value.trim());
+        formData.append('password', passwordLoginInput.value); // Password tidak di-trim
 
-        // Validasi captcha sebelum mengarahkan
-        if (captchaKeyUpValidate()) {
-          // Jika captcha benar, arahkan ke dashboard.php
-          window.location.href = 'dashboard.php';
-        } else {
-          // Jika captcha salah, jangan arahkan dan biarkan pesan error tampil
-          if (captchaInputBox.value.length === 0) {
-            message.style.color = "#ff0000";
-            message.innerText = "Please enter the captcha.";
+        try {
+          const response = await fetch('proses_login.php', {
+            method: 'POST',
+            body: formData
+          });
+          const resultText = await response.text(); // Baca sebagai teks dulu
+          try {
+            const result = JSON.parse(resultText); // Coba parse JSON
+            if (result.success) {
+              // alert(result.message); // Opsional
+              if (result.redirect_url) {
+                window.location.href = result.redirect_url;
+              } else {
+                window.location.href = 'dashboard.php'; // Fallback redirect
+              }
+            } else {
+              loginErrorMessageDiv.innerText = result.message || "Login gagal. Silakan coba lagi.";
+              loginErrorMessageDiv.style.display = 'block';
+            }
+          } catch (jsonError) {
+            console.error("Gagal parsing JSON dari server:", jsonError);
+            console.error("Respons server (teks):", resultText);
+            loginErrorMessageDiv.innerText = "Terjadi kesalahan pada respons server.";
+            loginErrorMessageDiv.style.display = 'block';
           }
+        } catch (error) {
+          console.error('Error saat fetch:', error);
+          loginErrorMessageDiv.innerText = 'Terjadi kesalahan koneksi. Periksa jaringan Anda dan coba lagi.';
+          loginErrorMessageDiv.style.display = 'block';
+        } finally {
+          submitButton.disabled = false;
+          submitButton.innerHTML = originalButtonText;
         }
-      });
-    </script>
-  </body>
+
+      } else {
+        if (!clientSideValid) {
+          // Pesan error sudah ditampilkan di loginErrorMessageDiv
+        } else if (captchaInputBox.value.length === 0) {
+          captchaMessage.style.color = "#fca5a5";
+          captchaMessage.innerText = "Silakan masukkan CAPTCHA.";
+          captchaInputBox.focus();
+        } else {
+          // Pesan "Captcha tidak cocok" sudah diatur oleh captchaKeyUpValidateImpl
+          captchaInputBox.focus();
+        }
+      }
+    });
+  </script>
+</body>
+
 </html>

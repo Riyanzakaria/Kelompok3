@@ -1,5 +1,6 @@
 <?php
-require_once 'db.php';
+session_start(); // Memulai session untuk penggunaan variabel session
+require_once 'db.php'; // Menyertakan file koneksi database Anda
 $eventsPerPage = 16;
 $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
 $offset = ($currentPage - 1) * $eventsPerPage;
@@ -43,6 +44,7 @@ if ($result && $result->num_rows > 0) {
 }
 // --- END: Mengambil Data Event ---
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -347,22 +349,24 @@ if ($result && $result->num_rows > 0) {
         <a class="navbar-brand text-white fw-bold fs-4" href="dashboard.php">Harmonix</a>
       </div>
       <div class="navbar-center">
-        <div class="nav-links d-none d-lg-flex" id="navLinks">
+        <div class="nav-links d-none d-lg-flex" id="navLinksDashboard">
           <a href="dashboard_tiket.php">Jelajah</a>
           <a href="tambah_event.php">Event Creator</a>
           <a href="#">Hubungi Kami</a>
         </div>
-        <div class="search-container" id="searchContainer">
-          <input type="text" placeholder="Cari..." aria-label="Search events" />
+        <div class="search-container" id="searchContainerDashboard">
+          <input type="text" placeholder="Cari event, konser, atau artis..." aria-label="Search events" />
         </div>
       </div>
-      <div class="d-flex align-items-center">
-        <div class="flag-container">
-          <div class="flag"></div>
-          <span class="flag-text">ID</span>
-        </div>
-        <i class="fas fa-search text-white" id="searchToggle" aria-label="Toggle search bar"></i>
+      <div class="d-flex align-items-center me-3">
+          <i class="fas fa-search text-white me-3" id="searchToggleDashboard" aria-label="Toggle search bar"></i>
+          <div class="flag-container">
+              <div class="flag"></div>
+              <span class="flag-text">ID</span>
+          </div>
       </div>
+      <div class="d-flex align-items-center navbar-actions" id="navbarActions">
+          </div>
     </div>
   </nav>
 
@@ -431,7 +435,7 @@ if ($result && $result->num_rows > 0) {
         <?php endforeach; ?>
       </div>
     <?php else: ?>
-      <div class="row">
+      <div class="row">   
         <div class="col">
           <p class="no-events">Belum ada event yang tersedia saat ini. Silakan cek kembali nanti.</p>
         </div>
@@ -460,6 +464,13 @@ if ($result && $result->num_rows > 0) {
   <?php endif; ?>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    const isLoggedIn = <?php echo json_encode(isset($_SESSION['user_id'])); ?>;
+    const userName = <?php echo json_encode($_SESSION['user_name'] ?? 'Pengguna'); ?>;
+    const userProfilePic = <?php echo json_encode($_SESSION['user_profile_pic'] ?? 'foto/default_avatar.png'); ?>;
+  </script>
+
+  <script src="js/init.js?v=<?php echo time(); ?>"></script> 
   <script>
     // Search bar toggle
     let isToggling = false;
